@@ -1,85 +1,35 @@
-function getSeason(date) {
-    if (typeof date === 'undefined'){
-      return 'Unable to determine the time of year!';
-    }
-    if (!(date instanceof Date)){
-      throw Error;
-    }
-    seasons = [
-      'winter',
-      'winter',
-      'winter',
-      'spring',
-      'spring',
-      'spring',
-      'summer',
-      'summer',
-      'summer',
-      'autumn',
-      'autumn',
-      'autumn',
-    ];
-    
-    month = date.getMonth();
-    return seasons[month];
-  };
+function calculateHanoi(disksNumber, turnsSpeed) {
+    let turns = Math.pow(2, disksNumber) - 1;
+    console.log('turns: ' + turns)
+    // turnInSecods = BigInt(turnsSpeed);
+    res1 = BigInt(turns) / BigInt(turnsSpeed);
+    console.log('Div of BigInts: ' + res1);
+    res2 = turns / turnsSpeed;
+    console.log('Div of Numbers: ' + res2);
+    res3 = res1 * BigInt(3600);
+    console.log('BigInt * 3600 = ' + res3)
+    res4 = res2 * 3600;
+    console.log('Number * 3600 = ' + res4)
+    res5 = Math.floor(res2) * 3600;
+    console.log('floored: ' + res5)
+    res6 = Math.round(res2) * 3600;
+    console.log('rounded: ' + res6)
+    res7 = Math.ceil(res2) * 3600;
+    console.log('ceiled: ' + res7)
+    // rrr = (BigInt(turns) / BigInt(turnsSpeed)) * BigInt(3600);
+    // console.log('rrr: ' + rrr)
+
+    let seconds = turns / turnsSpeed * 3600;
+
+    return { turns, seconds }
+}
+
+// assert.deepEqual(calculateHanoi(414, 19279842), {turns: 4.230758200257591e+124, seconds: 7.899820714779368e+120});
+// assert.deepEqual(calculateHanoi(736, 78853564), {turns: 3.6147378671465184e+221, seconds: 1.6502813140731933e+217});
+// assert.deepEqual(calculateHanoi(243, 58252885), {turns: 1.4134776518227075e+73, seconds: 8.735223236689046e+68});
 
 
-const deeperFakeDate = {
-    toString() {
-        return Date.prototype.toString.call(new Date());
-    },
-    getMonth() {
-        return Date.prototype.getMonth.call(new Date());
-    },
-    getFullYear() {
-        return Date.prototype.getFullYear.call(new Date(1994, 1, 2, 3, 4, 5));
-    },
-    getDate() {
-        return Date.prototype.getDate.call(new Date(2020, 0, 3, 4, 5, 6));
-    },
-    getHours() {
-        return Date.prototype.getHours.call(new Date(1978, 2, 4, 5, 6, 7));
-    },
-    getMinutes() {
-        return Date.prototype.getMinutes.call(new Date(202, 3, 5, 6, 7, 8));
-    },
-    getSeconds() {
-        return Date.prototype.getSeconds.call(new Date(1, 4, 6, 7, 8, 9));
-    },
-    getMilliseconds() {
-        return Date.prototype.getMilliseconds.call(new Date(2019, 7, 8, 9, 10, 11));
-    },
-    getDay() {
-        return Date.prototype.getDay.call(new Date(1812, 8, 9, 10, 11, 12));
-    }
-};
+// console.log(calculateHanoi(736, 78853564))
+console.log(calculateHanoi(243, 58252885))
 
-Object.setPrototypeOf(deeperFakeDate, Object.getPrototypeOf(new Date()));
-
-// console.log(getSeason(deeperFakeDate));
-// console.log(typeof deeperFakeDate)
-// console.log(deeperFakeDate instanceof Date)
-// // console.log(deeperFakeDate.prototype.constructor)
-// // console.log(Date.prototype.constructor)
-// console.log(deeperFakeDate.__proto__)
-// console.log(Date.__proto__)
-// dates = new Date(2020, 8, 9, 10, 11, 12);
-// // console.log(dates)
-// console.log( dates.__proto__ )
-
-// console.log('0000000000000')
-// console.log(dates.constructor.name)
-// console.log(deeperFakeDate.constructor.name)
-
-console.log(+deeperFakeDate.toString().split(' ')[2])
-console.log(deeperFakeDate.getDate())
-
-
-
-
-
-
-
-// console.log(deeperFakeDate.hasOwnProperty())
-
+// console.log(calculateHanoi(7, 10))
