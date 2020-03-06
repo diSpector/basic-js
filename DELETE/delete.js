@@ -1,35 +1,108 @@
-function calculateHanoi(disksNumber, turnsSpeed) {
-    let turns = Math.pow(2, disksNumber) - 1;
-    console.log('turns: ' + turns)
-    // turnInSecods = BigInt(turnsSpeed);
-    res1 = BigInt(turns) / BigInt(turnsSpeed);
-    console.log('Div of BigInts: ' + res1);
-    res2 = turns / turnsSpeed;
-    console.log('Div of Numbers: ' + res2);
-    res3 = res1 * BigInt(3600);
-    console.log('BigInt * 3600 = ' + res3)
-    res4 = res2 * 3600;
-    console.log('Number * 3600 = ' + res4)
-    res5 = Math.floor(res2) * 3600;
-    console.log('floored: ' + res5)
-    res6 = Math.round(res2) * 3600;
-    console.log('rounded: ' + res6)
-    res7 = Math.ceil(res2) * 3600;
-    console.log('ceiled: ' + res7)
-    // rrr = (BigInt(turns) / BigInt(turnsSpeed)) * BigInt(3600);
-    // console.log('rrr: ' + rrr)
+function transform(arr) {
+    if (!(arr && typeof arr === 'object' && arr.constructor === Array)) {
+        throw Error;
+    }
 
-    let seconds = turns / turnsSpeed * 3600;
+    if (arr.length == 0) {
+        return [];
+    }
 
-    return { turns, seconds }
-}
+    let transformedArr = [];
+    const flags = [
+        '--discard-next',
+        '--discard-prev',
+        '--double-next',
+        '--double-prev',
+    ];
 
-// assert.deepEqual(calculateHanoi(414, 19279842), {turns: 4.230758200257591e+124, seconds: 7.899820714779368e+120});
-// assert.deepEqual(calculateHanoi(736, 78853564), {turns: 3.6147378671465184e+221, seconds: 1.6502813140731933e+217});
-// assert.deepEqual(calculateHanoi(243, 58252885), {turns: 1.4134776518227075e+73, seconds: 8.735223236689046e+68});
+    // arr.forEach((cur, i, array) => {
+    //     if (flags.includes(cur)) {
+    //         switch (cur) {
+    //             case '--discard-next':
+    //                 // array.pop();
+    //                 // delete array[i+1];
+    //                 i++;
+    //                 break;
+    //             case '--discard-prev':
+    //                 transformedArr.pop();
+    //                 break;
+    //             case '--double-next':
+    //                 if (typeof array[i+1] !== 'undefined'){
+    //                     transformedArr.push(array[i+1]);
+    //                 }
+    //                 break;
+    //             default: // -- double-prev
+    //                 if (typeof array[i-1] !== 'undefined'){
+    //                     transformedArr.push(array[i-1]);
+    //                 }
+    //                 break;
+    //         }
+    //     } else {
+    //         transformedArr.push(cur)
+    //     }
+    // });
+    let missOne = false;
+    arr.forEach((cur, i, array) => {
+        // missOne = false;
+        if (flags.includes(cur)) {
+            switch (cur) {
+                case '--discard-next':
+                    missOne = true;
+                    // array.pop();
+                    // delete array[i+1];
 
+                    break;
+                case '--discard-prev':
+                    transformedArr.pop();
+                    break;
+                case '--double-next':
+                    if (typeof array[i+1] !== 'undefined'){
+                        transformedArr.push(array[i+1]);
+                    }
+                    break;
+                default: // -- double-prev
+                    if (typeof array[i-1] !== 'undefined'){
+                        transformedArr.push(array[i-1]);
+                    }
+                    break;
+            }
+        } else {
+            if (!missOne){
+                transformedArr.push(cur)
+            } else {
+                missOne = false;
+            }
+            // transformedArr.push(cur)
+        }
+    });
 
-// console.log(calculateHanoi(736, 78853564))
-console.log(calculateHanoi(243, 58252885))
+    return transformedArr;
+};
 
-// console.log(calculateHanoi(7, 10))
+console.log(
+    transform([
+        '--discard-next', 333,
+        '--discard-next', 0,
+        '--double-next',  'GHI',
+        '--discard-prev', 3.14,
+        '--discard-next', 1,
+        'DEF',            0,
+        'DEF',            1.233,
+        '--double-next'
+      ])
+);
+
+// console.log(transform(['--double-prev', NaN, '--discard-next', {name: 'john'}, NaN, '--discard-next']));
+
+// console.log(transform(
+// [
+//     '--discard-next', 22,
+//     '--double-prev',  3.14,
+//     '--double-next',  'DEF',
+//     '--double-prev',  3.14,
+//     '--double-prev',  1,
+//     3.14,             22,
+//     '8.963',          false,
+//     '--double-prev'
+//   ]
+// ));
