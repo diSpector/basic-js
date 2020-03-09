@@ -1,17 +1,19 @@
+let maxDepth = 0;
+
 module.exports = class DepthCalculator {
 
-    constructor(){
-        this.depth = 1;
-        this.maxDepth = 1;
-    }
-
-    increaseDepth(){
-        this.depth++;
-    }
-
-    calculateDepth(arr) {
+    calculateDepth(arr, curDepth = 1) {
         arr.forEach(el => {
-
+            if(Array.isArray(el)){
+                maxDepth = this.calculateDepth(el, curDepth + 1);
+            }   
         });
+
+        maxDepth = (maxDepth > curDepth) ? maxDepth : curDepth;
+
+        let depth = maxDepth;
+        maxDepth = 0;
+
+        return depth;
     }
 };
